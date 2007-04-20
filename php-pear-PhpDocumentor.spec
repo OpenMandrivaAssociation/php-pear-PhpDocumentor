@@ -71,7 +71,7 @@ This class has in PEAR status: %{_status}.
 %setup -q -c
 %patch0 -p0
 %patch1 -p0
-%patch2 -p1
+%patch2 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
