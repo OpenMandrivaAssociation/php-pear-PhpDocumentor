@@ -8,7 +8,7 @@
 Summary:	%{_pearname} - provides automatic documenting of PHP API directly from source
 Name:		php-pear-%{_pearname}
 Version:	1.3.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPL
 Group:		Development/PHP
 URL:		http://pear.php.net/package/PhpDocumentor/
