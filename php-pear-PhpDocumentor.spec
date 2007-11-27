@@ -2,17 +2,17 @@
 %define		_status		beta
 %define		_pearname	%{_class}
 
-%define		_requires_exceptions pear(PEAR/PackageFileManager.php)
+%define		_requires_exceptions pear(PEAR/PackageFileManager.php)\\|Documentation/tests
 %define		_provides_exceptions pear(data/PhpDocumentor\\|pear(PhpDocumentor/scripts
 
 Summary:	%{_pearname} - provides automatic documenting of PHP API directly from source
 Name:		php-pear-%{_pearname}
-Version:	1.3.2
-Release:	%mkrel 2
+Version:	1.4.0
+Release:	%mkrel 1
 License:	LGPL
 Group:		Development/PHP
 URL:		http://pear.php.net/package/PhpDocumentor/
-Source0:	http://pear.php.net/get/%{_pearname}-%{version}.tar.bz2
+Source0:	http://pear.php.net/get/%{_pearname}-%{version}.tgz
 Patch0:		PhpDocumentor-html_treemenu_includes_fix.diff
 Patch1:		PhpDocumentor-includes_fix.diff
 Patch2:		PhpDocumentor-smarty.diff
@@ -102,19 +102,6 @@ popd
 install -d %{buildroot}%{_datadir}/pear/packages
 install -m0644 package.xml %{buildroot}%{_datadir}/pear/packages/%{_pearname}.xml
 
-# fix cache dir and file list
-pushd %{buildroot}%{_datadir}/pear/data/PhpDocumentor/phpDocumentor/Converters
-    for i in `find -type d -name 'templates_c' | sed -e 's/^\.\///' | sed -e 's/templates_c//' | sed -e 's/\/$//'`; do
-	pushd $i
-	    rm -rf templates_c
-	    install -d %{buildroot}/var/cache/httpd/%{name}/$i/templates_c
-	    ln -snf /var/cache/httpd/%{name}/$i/templates_c templates_c 
-	popd
-    done
-popd
-
-find %{buildroot} -name 'templates_c' | sed -e "s|%{buildroot}||" | sed -e 's/^/%attr(0755,apache,apache) %dir /' > %{name}.filelist
-
 # fix docs
 rm -rf docs tests tests.tml
 mv %{buildroot}%{_datadir}/pear/tests/PhpDocumentor/Documentation/tests tests
@@ -203,7 +190,7 @@ fi
 %clean
 rm -rf %{buildroot}
 
-%files -f %{name}.filelist
+%files
 %defattr(644,root,root,755)
 %doc docs/* tests README.urpmi
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/conf/webapps.d/%{name}.conf 
@@ -212,5 +199,3 @@ rm -rf %{buildroot}
 %{_datadir}/pear/%{_class}/*
 %{_datadir}/pear/packages/%{_pearname}.xml
 %{_datadir}/pear/data/PhpDocumentor
-
-
