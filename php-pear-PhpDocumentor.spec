@@ -24,7 +24,6 @@ Requires:	php-smarty
 BuildArch:	noarch
 BuildRequires:	dos2unix
 BuildRequires:	php-pear
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 The phpDocumentor tool is a standalone auto-documentor similar to
