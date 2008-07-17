@@ -8,7 +8,7 @@
 Summary:	%{_pearname} - provides automatic documenting of PHP API directly from source
 Name:		php-pear-%{_pearname}
 Version:	1.4.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPL
 Group:		Development/PHP
 URL:		http://pear.php.net/package/PhpDocumentor/
@@ -24,7 +24,7 @@ Requires:	php-smarty
 BuildArch:	noarch
 BuildRequires:	dos2unix
 BuildRequires:	php-pear
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The phpDocumentor tool is a standalone auto-documentor similar to
