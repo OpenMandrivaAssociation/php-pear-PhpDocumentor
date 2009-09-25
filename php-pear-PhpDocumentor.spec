@@ -1,30 +1,26 @@
-%define         _class          PhpDocumentor
-%define		_status		beta
-%define		_pearname	%{_class}
+%define     _class          PhpDocumentor
+%define		upstream_name	%{_class}
 
 %define		_requires_exceptions pear(PEAR/PackageFileManager.php)\\|Documentation/tests
 %define		_provides_exceptions pear(data/PhpDocumentor\\|pear(PhpDocumentor/scripts
 
-Summary:	%{_pearname} - provides automatic documenting of PHP API directly from source
-Name:		php-pear-%{_pearname}
-Version:	1.4.2
-Release:	%mkrel 2
+Summary:	Provides automatic documenting of PHP API directly from source
+Name:		php-pear-%{upstream_name}
+Version:	1.4.3
+Release:	%mkrel 1
 License:	LGPL
 Group:		Development/PHP
 URL:		http://pear.php.net/package/PhpDocumentor/
-Source0:	http://pear.php.net/get/%{_pearname}-%{version}.tgz
-Patch0:		PhpDocumentor-html_treemenu_includes_fix.diff
-Patch1:		PhpDocumentor-includes_fix.diff
-Patch2:		PhpDocumentor-smarty.diff
+Source0:	http://pear.php.net/get/%{upstream_name}-%{version}.tgz
+Patch:		PhpDocumentor-1.4.3-use-system-smarty.patch
 Requires(post): php-pear
 Requires(preun): php-pear
 Requires:	apache-mod_php
 Requires:	php-pear
 Requires:	php-smarty
 BuildArch:	noarch
-BuildRequires:	dos2unix
 BuildRequires:	php-pear
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 The phpDocumentor tool is a standalone auto-documentor similar to
@@ -64,138 +60,38 @@ Features (short list):
 - user .ini files can be used to control output, multiple outputs can
   be generated at once
 
-This class has in PEAR status: %{_status}.
-
 %prep
-
 %setup -q -c
-%patch0 -p0
-%patch1 -p0
-%patch2 -p0
-
-find . -type d -perm 0700 -exec chmod 755 {} \;
-find . -type f -perm 0555 -exec chmod 755 {} \;
-find . -type f -perm 0444 -exec chmod 644 {} \;
-
-for i in `find . -type d -name CVS` `find . -type f -name .cvs\*` `find . -type f -name .#\*`; do
-    if [ -e "$i" ]; then rm -rf $i; fi >&/dev/null
-done
-
-# strip away annoying ^M
-find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix -U
-
-# i found no way disabling this silly install check
-perl -pi -e "s|md5sum=|blablabla=|g" package.xml
-
-%build
+%patch -p 0
+mv package.xml %{upstream_name}-%{version}/%{upstream_name}.xml
 
 %install
 rm -rf %{buildroot}
 
-install -d %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d
+cd %{upstream_name}-%{version}
+pear install --nodeps --packagingroot %{buildroot} %{upstream_name}.xml
+rm -rf %{buildroot}%{_datadir}/pear/.??*
 
-pushd %{_pearname}-%{version}*/
-    cp ../package.xml .
-    pear install --installroot=%{buildroot} --force --ignore-errors package.xml
-popd
+rm -rf %{buildroot}%{_datadir}/pear/docs
+rm -rf %{buildroot}%{_datadir}/pear/tests
 
 install -d %{buildroot}%{_datadir}/pear/packages
-install -m0644 package.xml %{buildroot}%{_datadir}/pear/packages/%{_pearname}.xml
-
-# fix docs
-rm -rf docs tests tests.tml
-mv %{buildroot}%{_datadir}/pear/tests/PhpDocumentor/Documentation/tests tests
-mv %{buildroot}%{_datadir}/pear/docs/PhpDocumentor docs
-
-# put this file in place
-mv %{buildroot}%{_bindir}/scripts/makedoc.sh %{buildroot}%{_datadir}/pear/PhpDocumentor/scripts/
-
-# fix apache conf on the fly
-cat > apache-%{name}.conf << EOF
-php_value include_path '.:%{_datadir}/pear:%{_datadir}/smarty'
-
-Alias /PhpDocumentor "%{_datadir}/pear/data/PhpDocumentor"
-<Directory "%{_datadir}/pear/data/PhpDocumentor/">
-    Options FollowSymLinks Indexes
-    AllowOverride None
-    Order Deny,Allow
-</Directory>
-
-#Alias /HTML_TreeMenu "%{_datadir}/pear/HTML_TreeMenu"
-#<Directory "%{_datadir}/pear/HTML_TreeMenu/">
-#    Options FollowSymLinks Indexes
-#    AllowOverride None
-#    Order Deny,Allow
-#</Directory>
-EOF
-
-install -m0644  apache-%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d/%{name}.conf 
-
-# fix buildroot
-find %{buildroot} -type f | xargs perl -pi -e "s|%{buildroot}||"
-
-# fix a README.urpmi file
-cat > README.urpmi << EOF
-
-Please set your preferred access policy in the %{_sysconfdir}/httpd/conf/webapps.d/%{name}.conf file.
-
-Open up the following URL in your favourite web browser:
-
-http://localhost/PhpDocumentor/
-EOF
-
-# cleanup
-rm -rf %{buildroot}%{_datadir}/pear/.channels
-rm -rf %{buildroot}%{_datadir}/pear/.registry
-rm -rf %{buildroot}%{_datadir}/pear/.depdb
-rm -rf %{buildroot}%{_datadir}/pear/.depdblock
-rm -rf %{buildroot}%{_datadir}/pear/.filemap
-rm -rf %{buildroot}%{_datadir}/pear/.lock
-rm -rf %{buildroot}%{_datadir}/pear/data/PhpDocumentor/HTML_TreeMenu-*
-rm -rf %{buildroot}%{_datadir}/pear/data/PhpDocumentor/Smarty-*
-rm -rf %{buildroot}%{_datadir}/pear/data/PhpDocumentor/phpDocumentor/Smarty-*
-rm -rf %{buildroot}%{_datadir}/pear/PhpDocumentor/phpDocumentor/Smarty-*
-rm -rf %{buildroot}%{_datadir}/pear/PhpDocumentor/HTML_TreeMenu-*
-rm -f %{buildroot}/var/cache/pear/*
+install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
 
 %post
-if [ "$1" = "1" ]; then
-	if [ -x %{_bindir}/pear -a -f %{_datadir}/pear/packages/%{_pearname}.xml ]; then
-		%{_bindir}/pear install --nodeps -r %{_datadir}/pear/packages/%{_pearname}.xml
-	fi
-fi
-if [ "$1" = "2" ]; then
-	if [ -x %{_bindir}/pear -a -f %{_datadir}/pear/packages/%{_pearname}.xml ]; then
-		%{_bindir}/pear upgrade -f --nodeps -r %{_datadir}/pear/packages/%{_pearname}.xml
-	fi
-fi
-if [ -f %{_var}/lock/subsys/httpd ]; then
-    %{_initrddir}/httpd restart 1>&2;
-fi
+pear install --nodeps --soft --force --register-only \
+    %{_datadir}/pear/packages/%{upstream_name}.xml >/dev/null || :
 
 %preun
-if [ "$1" = 0 ]; then
-	if [ -x %{_bindir}/pear -a -f %{_datadir}/pear/packages/%{_pearname}.xml ]; then
-		%{_bindir}/pear uninstall --nodeps -r %{_pearname}
-	fi
-fi
-
-%postun
-if [ "$1" = "0" ]; then
-    if [ -f %{_var}/lock/subsys/httpd ]; then
-        %{_initrddir}/httpd restart 1>&2
-    fi
+if [ "$1" -eq "0" ]; then
+    pear uninstall --nodeps --ignore-errors --register-only \
+        %{pear_name} >/dev/null || :
 fi
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%defattr(644,root,root,755)
-%doc docs/* tests README.urpmi
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/conf/webapps.d/%{name}.conf 
-%attr(0755,root,root) %{_bindir}/phpdoc
-%dir %{_datadir}/pear/%{_class}
-%{_datadir}/pear/%{_class}/*
-%{_datadir}/pear/packages/%{_pearname}.xml
-%{_datadir}/pear/data/PhpDocumentor
+%defattr(-,root,root)
+%{_datadir}/pear/%{_class}
+%{_datadir}/pear/packages/%{upstream_name}.xml
