@@ -6,7 +6,7 @@
 
 Name:		php-pear-%{upstream_name}
 Version:	1.4.3
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary:	Provides automatic documenting of PHP API directly from source
 License:	LGPL
 Group:		Development/PHP
