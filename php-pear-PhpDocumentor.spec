@@ -5,8 +5,8 @@
 %define		_provides_exceptions pear(data/PhpDocumentor\\|pear(PhpDocumentor/scripts
 
 Name:		php-pear-%{upstream_name}
-Version:	1.4.3
-Release:	%mkrel 4
+Version:	1.4.4
+Release:	%mkrel 1
 Summary:	Provides automatic documenting of PHP API directly from source
 License:	LGPL
 Group:		Development/PHP
@@ -62,7 +62,7 @@ Features (short list):
 
 %prep
 %setup -q -c
-%patch -p 0
+# %%patch -p1 <- needs testing
 mv package.xml %{upstream_name}-%{version}/%{upstream_name}.xml
 
 %install
@@ -77,6 +77,11 @@ rm -rf %{buildroot}%{_datadir}/pear/tests
 
 install -d %{buildroot}%{_datadir}/pear/packages
 install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
+
+# # cleanup
+# rm -rf %{buildroot}%{_datadir}/pear/%{_class}/Smarty-*
+# rm -rf %{buildroot}%{_datadir}/pear/%{_class}/phpDocumentor/Smarty-*
+# rm -rf %{buildroot}%{_datadir}/pear/data/PhpDocumentor/phpDocumentor/Smarty-*
 
 %clean
 rm -rf %{buildroot}
@@ -97,5 +102,7 @@ fi
 
 %files
 %defattr(-,root,root)
+%{_bindir}/phpdoc
 %{_datadir}/pear/%{_class}
+%{_datadir}/pear/data/%{_class}
 %{_datadir}/pear/packages/%{upstream_name}.xml
