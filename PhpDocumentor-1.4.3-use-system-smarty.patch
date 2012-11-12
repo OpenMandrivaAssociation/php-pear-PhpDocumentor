@@ -1,0 +1,45 @@
+diff -Naur php-pear-PhpDocumentor-1.4.4/package.xml php-pear-PhpDocumentor-1.4.4.oden/package.xml
+--- php-pear-PhpDocumentor-1.4.4/package.xml	2011-12-03 22:40:14.000000000 +0100
++++ php-pear-PhpDocumentor-1.4.4.oden/package.xml	2011-12-18 09:42:12.732064138 +0100
+@@ -1161,7 +1161,7 @@
+     <tasks:replace from="@VER@" to="version" type="package-info" />
+     <tasks:replace from="@PEAR-DIR@" to="php_dir" type="pear-config" />
+    </file>
+-   <file baseinstalldir="PhpDocumentor" md5sum="1c4c5b1d2e220126b624f7bc618f132c" name="phpDocumentor/Converter.inc" role="php">
++   <file baseinstalldir="PhpDocumentor" md5sum="c171e0eed9d02b1e788c0565f9d6b27c" name="phpDocumentor/Converter.inc" role="php">
+     <tasks:replace from="@DATA-DIR@" to="data_dir" type="pear-config" />
+    </file>
+    <file baseinstalldir="PhpDocumentor" md5sum="068d5fd8831ab0fb7b8a69d25467ac1a" name="phpDocumentor/DescHTML.inc" role="php">
+@@ -1228,7 +1228,7 @@
+    </file>
+    <file baseinstalldir="PhpDocumentor" md5sum="5a177d782c0416dab4f1bb68a30ef29f" name="scripts/add_cvs.php" role="php" />
+    <file baseinstalldir="PhpDocumentor" md5sum="d378f129f3173b9bf73af2f2b6a24e69" name="scripts/create_examples.php" role="php" />
+-   <file baseinstalldir="PhpDocumentor" md5sum="70b3759930efa46abf66f2351046a097" name="scripts/create_package.xml.php" role="php" />
++   <file baseinstalldir="PhpDocumentor" md5sum="7874af2d1f41647159901b6d6b20a731" name="scripts/create_package.xml.php" role="php" />
+    <file baseinstalldir="PhpDocumentor" md5sum="a08c843d10f8f0f0052e8eb3bb4fbad6" name="scripts/makedoc.sh" role="php" />
+    <file baseinstalldir="PhpDocumentor" md5sum="390e02f6cfb176072325292f78a1e3db" name="scripts/tokenizer_test.php" role="php" />
+    <file baseinstalldir="PhpDocumentor" md5sum="fce07817b0080de23772ac67906a013c" name="tests/AllTests.php" role="test" />
+diff -Naur php-pear-PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/phpDocumentor/Converter.inc php-pear-PhpDocumentor-1.4.4.oden/PhpDocumentor-1.4.4/phpDocumentor/Converter.inc
+--- php-pear-PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/phpDocumentor/Converter.inc	2011-12-03 22:40:12.000000000 +0100
++++ php-pear-PhpDocumentor-1.4.4.oden/PhpDocumentor-1.4.4/phpDocumentor/Converter.inc	2011-12-18 09:37:31.394161197 +0100
+@@ -40,7 +40,7 @@
+ /**
+  * Smarty template files
+  */
+-include_once("phpDocumentor/Smarty-2.6.0/libs/Smarty.class.php");
++include_once("/usr/share/php/smarty/Smarty.class.php");
+ /**
+  * Base class for all output converters.
+  *
+diff -Naur php-pear-PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/scripts/create_package.xml.php php-pear-PhpDocumentor-1.4.4.oden/PhpDocumentor-1.4.4/scripts/create_package.xml.php
+--- php-pear-PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/scripts/create_package.xml.php	2011-12-03 22:40:12.000000000 +0100
++++ php-pear-PhpDocumentor-1.4.4.oden/PhpDocumentor-1.4.4/scripts/create_package.xml.php	2011-12-18 09:37:31.394161197 +0100
+@@ -65,7 +65,7 @@
+         'pear-phpdoc' => 'script',
+         'pear-phpdoc.bat' => 'script',
+         'HTML_TreeMenu-1.1.2/TreeMenu.php' => 'php',
+-        'phpDocumentor/Smarty-2.6.0/libs/debug.tpl' => 'php',
++        '/usr/share/php/smarty/debug.tpl' => 'php',
+         'new_phpdoc.php' => 'data',
+         'phpdoc.php' => 'data',
+         'scripts/makedoc.sh' => 'php',
