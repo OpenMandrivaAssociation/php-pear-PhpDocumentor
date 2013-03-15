@@ -1,12 +1,9 @@
 %define     _class          PhpDocumentor
 %define		upstream_name	%{_class}
 
-%define		_requires_exceptions pear(PEAR/PackageFileManager.php)\\|Documentation/tests
-%define		_provides_exceptions pear(data/PhpDocumentor\\|pear(PhpDocumentor/scripts
-
 Name:		php-pear-%{upstream_name}
 Version:	1.4.4
-Release:	%mkrel 1
+Release:	2
 Summary:	Provides automatic documenting of PHP API directly from source
 License:	LGPL
 Group:		Development/PHP
@@ -20,7 +17,6 @@ Requires:	php-pear
 Requires:	php-smarty
 BuildArch:	noarch
 BuildRequires:	php-pear
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 The phpDocumentor tool is a standalone auto-documentor similar to
@@ -66,7 +62,6 @@ Features (short list):
 mv package.xml %{upstream_name}-%{version}/%{upstream_name}.xml
 
 %install
-rm -rf %{buildroot}
 
 cd %{upstream_name}-%{version}
 pear install --nodeps --packagingroot %{buildroot} %{upstream_name}.xml
@@ -84,21 +79,8 @@ install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
 # rm -rf %{buildroot}%{_datadir}/pear/data/PhpDocumentor/phpDocumentor/Smarty-*
 
 %clean
-rm -rf %{buildroot}
 
-%post
-%if %mdkversion < 201000
-pear install --nodeps --soft --force --register-only \
-    %{_datadir}/pear/packages/%{upstream_name}.xml >/dev/null || :
-%endif
 
-%preun
-%if %mdkversion < 201000
-if [ "$1" -eq "0" ]; then
-    pear uninstall --nodeps --ignore-errors --register-only \
-        %{upstream_name} >/dev/null || :
-fi
-%endif
 
 %files
 %defattr(-,root,root)
