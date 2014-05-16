@@ -1,10 +1,12 @@
 %define     _class          PhpDocumentor
 %define		upstream_name	%{_class}
+%define __noautoreq /usr/bin/php
 
 Name:		php-pear-%{upstream_name}
 Version:	1.4.4
 Release:	2
 Summary:	Provides automatic documenting of PHP API directly from source
+
 License:	LGPL
 Group:		Development/PHP
 URL:		http://pear.php.net/package/PhpDocumentor/
@@ -83,113 +85,9 @@ install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
 
 
 %files
-%defattr(-,root,root)
 %{_bindir}/phpdoc
 %{_datadir}/pear/%{_class}
 %{_datadir}/pear/data/%{_class}
 %{_datadir}/pear/packages/%{upstream_name}.xml
 
-
-%changelog
-* Sun Dec 18 2011 Oden Eriksson <oeriksson@mandriva.com> 1.4.4-1mdv2012.0
-+ Revision: 743437
-- 1.4.4
-- fix major breakage by careless packager
-- mass rebuild
-
-* Tue Dec 07 2010 Oden Eriksson <oeriksson@mandriva.com> 1.4.3-2mdv2011.0
-+ Revision: 613761
-- the mass rebuild of 2010.1 packages
-
-* Sat Nov 21 2009 Guillaume Rousse <guillomovitch@mandriva.org> 1.4.3-1mdv2010.1
-+ Revision: 468055
-- spec cleanup
-- use pear installer
-- don't ship tests, even in documentation
-- own all directories
-- use rpm filetriggers starting from mandriva 2010.1
-
-* Sat Sep 26 2009 Guillaume Rousse <guillomovitch@mandriva.org> 1.4.3-1mdv2010.0
-+ Revision: 449334
-- new version
-- use pear installer
-- use fedora %%post/%%postun
-- update smarty patch
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - rebuild
-
-  + Raphaël Gertz <rapsys@mandriva.org>
-    - New version 1.4.2
-
-* Thu Jan 01 2009 Oden Eriksson <oeriksson@mandriva.com> 1.4.0-3mdv2009.1
-+ Revision: 322656
-- rebuild
-
-* Thu Jul 17 2008 Oden Eriksson <oeriksson@mandriva.com> 1.4.0-2mdv2009.0
-+ Revision: 237057
-- rebuild
-
-  + Olivier Blin <blino@mandriva.org>
-    - restore BuildRoot
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - kill re-definition of %%buildroot on Pixel's request
-
-* Tue Nov 27 2007 Oden Eriksson <oeriksson@mandriva.com> 1.4.0-1mdv2008.1
-+ Revision: 113456
-- 1.4.0
-- use the default smarty compile dir
-- "rediff" the patches
-
-* Mon Apr 23 2007 Oden Eriksson <oeriksson@mandriva.com> 1.3.2-2mdv2008.0
-+ Revision: 17259
-- fix a silly typo
-
-* Fri Apr 20 2007 Oden Eriksson <oeriksson@mandriva.com> 1.3.2-1mdv2008.0
-+ Revision: 15996
-- rediffed the patches
-- 1.3.2
-
-
-* Tue Mar 27 2007 Oden Eriksson <oeriksson@mandriva.com> 1.3.1-2mdv2007.1
-+ Revision: 148836
-- fix #19769
-
-* Sun Nov 12 2006 Oden Eriksson <oeriksson@mandriva.com> 1.3.1-1mdv2007.0
-+ Revision: 83419
-- 1.3.1
-- fix deps
-- rediffed patches; P0,P1,P3
-- rebuild
-- Import php-pear-PhpDocumentor
-
-* Fri Feb 10 2006 Oden Eriksson <oeriksson@mandriva.com> 1.3.0-0.RC5.3mdk
-- new group (Development/PHP)
-
-* Mon Jan 09 2006 Oden Eriksson <oeriksson@mandriva.com> 1.3.0-0.RC5.2mdk
-- fix P2 to point to the correct cache directory and also nuke a stray ")"
-
-* Thu Dec 08 2005 Oden Eriksson <oeriksson@mandriva.com> 1.3.0-0.RC5.1mdk
-- 1.3.0RC5
-- major packaging changes
-
-* Fri Aug 26 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-6mdk
-- rebuilt to fix auto deps
-
-* Wed Aug 10 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-5mdk
-- rebuilt to use new pear auto deps/reqs from pld
-
-* Sun Jul 31 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-4mdk
-- fix deps
-
-* Thu Jul 21 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-3mdk
-- reworked the %%post and %%preun stuff, like in conectiva
-- fix deps
-
-* Wed Jul 20 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-2mdk
-- fix deps
-
-* Tue Jul 19 2005 Oden Eriksson <oeriksson@mandriva.com> 1.2.2.1-1mdk
-- initial Mandriva package (PLD import)
 
