@@ -4,7 +4,7 @@
 
 Name:		php-pear-%{upstream_name}
 Version:	1.4.4
-Release:	2
+Release:	3
 Summary:	Provides automatic documenting of PHP API directly from source
 
 License:	LGPL
