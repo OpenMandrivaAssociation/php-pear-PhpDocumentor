@@ -9,7 +9,7 @@ Summary:	Provides automatic documenting of PHP API directly from source
 
 License:	LGPL
 Group:		Development/PHP
-URL:		http://pear.php.net/package/PhpDocumentor/
+URL:		https://pear.php.net/package/PhpDocumentor/
 Source0:	http://download.pear.php.net/package/%{upstream_name}-%{version}.tgz
 Patch:		PhpDocumentor-1.4.3-use-system-smarty.patch
 Requires(post): php-pear
